@@ -1,73 +1,28 @@
 import React from 'react';
-import { Text, View, ScrollView, TextInput,StyleSheet, Button, Image , Animated} from 'react-native';
+import { Text, View, ScrollView, TextInput,StyleSheet, Button, Image } from 'react-native';
+import { now,annee,mois,jour, heure,minute,seconde,date,joursemaine,days,months,day,month,globalStyles,dayPrevsion } from './style.jsx'
 
-
-var now = new Date();
-
-var annee   = now.getFullYear();
-var mois    = ('0'+now.getMonth()+1).slice(-2);
-var jour    = ('0'+now.getDate()   ).slice(-2);
-var heure   = ('0'+now.getHours()  ).slice(-2);
-var minute  = ('0'+now.getMinutes()).slice(-2);
-var seconde = ('0'+now.getSeconds()).slice(-2);
-  
-
-function joursemaine(x){
-  var nbrDay=now.getDay() ;
-  return nbrDay+x
-}
-var date = heure+':'+minute
-
-var days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-
-var months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-Date.prototype.getMonthName = function() {
-    return months[ this.getMonth() ];
-};
-Date.prototype.getDayName = function() {
-    return days[ this.getDay() ];
-};
-
-var day = now.getDayName();
-var month = now.getMonthName();
-
-let animation = new Animated.Value(0)
-let animationSlow = Animated.divide(animation, 2)
-let animationTranslated = Animated.add(animation, -300)
-Animated.timing(
-  animation,
-  {
-    toValue: 600,
-    duration: 300,
-    useNativeDriver: true
-  }
-).start()
 
 
 export default function Prevision (props) {
     return (
               <View style={styles.container2}>
                 <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{days[joursemaine(1)]}</Text>
+                  <Text style={styles.textPrev}>{days[dayPrevsion(1)]}</Text>
                   <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
                   <Text style={styles.textPrev}>8° </Text>
                 </View>
                 <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{days[joursemaine(1)]}</Text>
+                  <Text style={styles.textPrev}></Text>
                   <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
                   <Text style={styles.textPrev}>8° </Text>
                 </View>
                 <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{days[joursemaine(1)]}</Text>
+                  <Text style={styles.textPrev}>{}</Text>
                   <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
                   <Text style={styles.textPrev}>8° </Text>
                 </View>
-                <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{days[joursemaine(1)]}</Text>
-                  <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
-                  <Text style={styles.textPrev}>8° </Text>
-                </View>
+                
                 
 
               </View>

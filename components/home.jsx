@@ -1,71 +1,48 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { Text, View, ScrollView, TextInput,StyleSheet, Button, Image } from 'react-native';
 import Prevision from './prevision'
 import {SetDate, setDate} from './Script';
-
-
-  // var i =1;
-  // var d= new Date();
-  // var s=[':',' ']
-  // var date=d.getHours()+s[i]+d.getMinutes();
-  
-
-  // return date
-
-
-var now = new Date();
-
-var annee   = now.getFullYear();
-var mois    = ('0'+now.getMonth()+1).slice(-2);
-var jour    = ('0'+now.getDate()   ).slice(-2);
-var heure   = ('0'+now.getHours()  ).slice(-2);
-var minute  = ('0'+now.getMinutes()).slice(-2);
-var seconde = ('0'+now.getSeconds()).slice(-2);
-var date = heure+':'+minute
-var joursemaine = now.getDay() ;
-
-var days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-
-var months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-Date.prototype.getMonthName = function() {
-    return months[ this.getMonth() ];
-};
-Date.prototype.getDayName = function() {
-    return days[ this.getDay() ];
-};
-
-var day = now.getDayName();
-var month = now.getMonthName();
-
-
-
-// // setTimeout(setDate, 5000);
-// var i=0;
-
-// if(i<5){
-//   setInterval(function (){setDate(i)},1000);
-//   i++
-// }else{
-//   i=0;
-// }
+import { now,annee,mois,jour, heure,minute,seconde,date,joursemaine,days,months,day,month,globalStyles } from './style.jsx'
 
 
 export default function Home (props) {
+  
+const key = '8d937ada21412cefa14b958644910f95';
+const ville = 'Paris';
+const [city, setCity] = useState('');
+const [meteo, setMeteo] = useState('');
+const [temp, setTemps] = useState('');
+const [pays, setPays] = useState('');
+const [img, setImg] = useState('');
+
+useEffect(() => {
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ville}&APPID=${key}&lang=fr&units=metric`)
+    .then(res => res.json())
+    .then(data => {
+        setCity(data.name);
+        setMeteo(data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1));
+        setTemps(data.main.temp.toFixed(1));
+        setPays(data.sys.country);
+        setImg(data.weather[0].main);
+    });
+});
+console.log(`./img/${img}.png`)
+
     return (
-        <ScrollView style={{width:400}}> 
-            <View style={styles.img}>
-             <Image source={require('./img/cloudy.png')} style={{width:200,height:200}} />
+        <ScrollView style={{flex:1}}> 
+            <Text style={[globalStyles.h1Day,{marginTop:20}]}>{city}</Text>
+            <View style={globalStyles.img}>
+             <Image source={require('./img/Rain.png')} style={{width:200,height:200, alignItems:"center"}} />
           </View>
-            <View style={styles.container}>
-              <Text style={styles.temp}>5°</Text>
-                <View style={styles.container2}>
-                <Text style={styles.title}>Ciel dégagé</Text>
-                <Text style={styles.hour}>Mise à jour {date}</Text>
+            <View style={globalStyles.container}>
+              <Text style={globalStyles.temp}>{temp}</Text>
+                <View style={globalStyles.container2}>
+    <Text style={globalStyles.title}>{meteo}</Text>
+                <Text style={globalStyles.hour}>Mise à jour {date}</Text>
 
 
                 </View>
-              <Text style={styles.h1Day}>{day+" "+jour+" "+month}</Text>
+              <Text style={globalStyles.h1Day}>{day+" "+jour+" "+month}</Text>
 
               {/* <Text>{meteoImg[0].txtRain}</Text> */}
             </View>
@@ -77,60 +54,6 @@ export default function Home (props) {
 }
 
 const styles = StyleSheet.create({
-  img:{
-    alignItems:'center',
-    marginTop:30,
-  },
-  container: {
-    backgroundColor:'#EEFBFF',
-    padding:10,
-    marginTop:20,
-    borderRadius:5,
-    flex: 1,
-    alignItems:'baseline',
-  },
-  container2: {
-    flex: 1,
-    alignItems:'baseline',
-  },
-  weatherBox:{
-  flexDirection:'row',
-  borderWidth:2,
-  borderColor:'red',
-  alignItems:'center',
   
-  },
-  h1Day:{
-    fontSize:32,
-  },
-
-
-  title: {
-      fontSize: 28,
-      fontWeight: 'bold',
-  },
-  temp:{
-    alignItems:'flex-start',
-    fontSize: 72,
-
-  },
-  hour:{
-    fontSize: 16,
-    padding:5,
-    backgroundColor:'#99E2FC',
-    borderRadius:20,
-
-  },
-  label: {
-      padding: 6,
-      fontSize: 20,
-  },
-  boxInput:{
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: '#000000',
-    minWidth:100,
-    minHeight:20,
-  },
 });
 
