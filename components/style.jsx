@@ -3,7 +3,7 @@
 import {StyleSheet} from 'react-native';
 export{now,annee,mois,jour, heure,minute,seconde,date,joursemaine,days,months,day,month}
 
-
+console.log("city")
 
 
 var now = new Date();
@@ -26,7 +26,7 @@ Date.prototype.getMonthName = function() {
 };
 Date.prototype.getDayName = function() {
     return days[ this.getDay() ];
-};
+}; 
 
 var day = now.getDayName();
 var month = now.getMonthName();
