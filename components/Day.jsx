@@ -52,7 +52,7 @@ function Day(props) {
         <Text style={styles.intitule}>{desc}</Text>
       </View>
       <View>
-        <Text style={styles.day}>{jours}{mois}{"\n"}{heure.substring(0, heure.length - 3)}</Text>
+        <Text style={styles.day}>{jours} {mois}{"\n"}{heure.substring(0, heure.length - 3)}</Text>
         <Text style={styles.temp}>{temp}°C</Text>
       </View>
     </View>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   previ: {
 
     width: width,
-    height: 150,
+    height: 100,
     marginTop: 25,
     marginBottom: 15,
     alignItems: 'center',
