@@ -1,15 +1,31 @@
 import React from 'react';
 import { Text, View, ScrollView, TextInput,StyleSheet, Button } from 'react-native';
-import Home from './components/home' 
+import Home from './components/Home' 
+import './components/router'
+
+
+import TabNavigator from './components/router';
+
+// import { Provider as PaperProvider } from 'react-native-paper';
+import { NavigationContainer } from '@react-navigation/native';
+import Prevision from './components/Prevision';
+
+
 
 export default function Login (props) {
     return (
         
-           
-              <View style={styles.container}>
 
-                <Home/>
-              </View>
+    
+    //  <NavigationContainer>
+    //   <TabNavigator/>
+    // </NavigationContainer>
+    
+    <View style={styles.container}>
+
+    <Home/>
+    {/* <Prevision/> */}
+  </View>
         
     );
 }

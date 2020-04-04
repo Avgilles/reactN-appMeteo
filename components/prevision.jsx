@@ -1,72 +1,78 @@
-import React from 'react';
-import { Text, View, ScrollView, TextInput,StyleSheet, Button, Image } from 'react-native';
-import { now,annee,mois,jour, heure,minute,seconde,date,joursemaine,days,months,day,month,globalStyles,dayPrevsion } from './style.jsx'
+import React, {useState, useEffect} from 'react';
+import { Text, View, ScrollView, TextInput,StyleSheet, Button, Image,FlatList } from 'react-native';
+// import {date, week, months,fullDate,width,height,globalStyles} from './global.jsx'
+import Day from './Day'
 
 
 
-export default function Prevision (props) {
+
+
+export default function Prevision () {
+
+
+  const apiKey = '8d937ada21412cefa14b958644910f95';
+  const ville = 'Paris';
+  
+  const [meteo,setMeteo] = useState('');
+  
+  
+  //------------APPELLE DEUXIEME API----------------------//
+  
+  
+  useEffect(() => {
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=${apiKey}&lang=fr&units=metric`)
+      .then(res => res.json())
+      .then(meteo => {
+        setMeteo(meteo);
+      })
+  });
+
+
+
+
+
     return (
-              <View style={styles.container2}>
-                <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{days[dayPrevsion(1)]}</Text>
-                  <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
-                  <Text style={styles.textPrev}>8° </Text>
-                </View>
-                <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}></Text>
-                  <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
-                  <Text style={styles.textPrev}>8° </Text>
-                </View>
-                <View style={styles.boxPrev}>
-                  <Text style={styles.textPrev}>{}</Text>
-                  <Image style={styles.prev}   source={require(`./img/sunny.png`)}/>
-                  <Text style={styles.textPrev}>8° </Text>
-                </View>
-                
-                
+      <View style={styles.contain}>
 
-              </View>
+      <ScrollView style={styles.container}>
+      <Text style={styles.titre}>Prévision sur 5 jours
+        </Text>
         
+        <View style={styles.containerInfo}>
+          <FlatList
+            data={meteo.list}
+            renderItem={({item}) => {
+            return (<Day item={item}/>)
+          }}
+            keyExtractor={item => item.dt}/>
+        </View>
+
+      </ScrollView>
+      </View>
+
+
     );
     
 
 }
 
 const styles = StyleSheet.create({
-  container2: {
-      alignItems: 'baseline',
-      flexDirection:'row'
+  contain: {
+    flex: 2  
+
   },
-  title: {
-      padding: 8,
-      fontSize: 28,
-      fontWeight: 'bold',
+  container: {
+    borderWidth:1,
+    borderColor:'white',
+    backgroundColor:'black',
   },
-  label: {
-      padding: 6,
-      fontSize: 20,
-  },
-  boxInput:{
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: '#000000',
-    minWidth:100,
-    minHeight:20,
-  },
-boxPrev:{
-  backgroundColor:'lavender',
-  padding:15,
-  margin:5,
-  alignItems:'center',
-  borderWidth:2,
-},
-textPrev:{
-  margin:10,
-  fontSize:20,
-},
-prev:{
-  width: 80,
-    height: 80,
-}
+
+  titre: { 
+    alignSelf:'center',
+    padding: 0,
+    color: 'white',
+    fontSize: 32,
+    marginTop: 20
+  }
 });
 
